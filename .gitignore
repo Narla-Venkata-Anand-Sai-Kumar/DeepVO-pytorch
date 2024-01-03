@@ -7,3 +7,4 @@ result/
 models/
 pretrained/
 *.ipynb
+venv/

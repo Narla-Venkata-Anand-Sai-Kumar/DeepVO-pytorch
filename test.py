@@ -17,7 +17,7 @@ if __name__ == '__main__':
 
 	# Path
 	load_model_path = par.load_model_path   #choose the model you want to load
-	save_dir = 'result/'  # directory to save prediction answer
+	save_dir = '/vol/bitbucket/mc620/DeepVO/result/'  # directory to save prediction answer
 	if not os.path.exists(save_dir):
 		os.makedirs(save_dir)
 

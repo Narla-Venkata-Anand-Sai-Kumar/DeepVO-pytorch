@@ -17,7 +17,9 @@ echo 'start downloading trained model......'
 wget 'https://www.polybox.ethz.ch/index.php/s/90OlHg6KWBzG6gR'
 echo 'model downloading finished! start downloading raw images....'
 
-mkdir 'images'
+target_dir='/vol/bitbucket/mc620/KITTI/images'
+
+mkdir -p "$target_dir"
 
 for i in ${files[@]}; do
         if [ ${i:(-3)} != "zip" ]
@@ -31,25 +33,24 @@ for i in ${files[@]}; do
                 fullname=$i
         fi
 
-        wget 'https://s3.eu-central-1.amazonaws.com/avg-kitti/raw_data/'$fullname
+        wget -O $target_dir'/'$shortname 'https://s3.eu-central-1.amazonaws.com/avg-kitti/raw_data/'$fullname
         if [ $? -ne 0 ]
         then
-                wget 'http://kitti.is.tue.mpg.de/kitti/raw_data/'$fullname
+                wget -O $target_dir'/'$shortname 'http://kitti.is.tue.mpg.de/kitti/raw_data/'$fullname
         fi
 
-        unzip -o $shortname
+        unzip -o $target_dir'/'$shortname -d "$target_dir"
         #tar -xvf $shortname
-        rm $shortname
+        rm $target_dir'/'$shortname
 
         # Remove image00 image01 image02, rename dir
         if [ ${i:(-3)} != "zip" ]
         then
                 dirn=${i:3:10}'/'${i:3}'_sync''/'
-                rm -r $dirn'image_00/' $dirn'image_01/' $dirn'image_02/' $dirn'velodyne_points/'
-                #mv $dirn 'images/'$rename
-                mv $dirn'image_03/data' 'images/'$rename
-                rm -r ${dirn:0:10}
+                rm -r $target_dir'/'$dirn'image_00/' $target_dir'/'$dirn'image_01/' $target_dir'/'$dirn'image_02/' $target_dir'/'$dirn'velodyne_points/'
+                mv $target_dir'/'$dirn'image_03/data' $target_dir'/'$rename
+                rm -r "$target_dir/${dirn:0:10}"
         fi
-echo 'all downloading done!'
 done
+echo 'all downloading done!'
 

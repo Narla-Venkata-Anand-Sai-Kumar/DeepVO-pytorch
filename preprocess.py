@@ -115,6 +115,6 @@ if __name__ == '__main__':
 	train_video = ['00', '02', '08', '09', '06', '04', '10']
 	image_path_list = []
 	for folder in train_video:
-		image_path_list += glob.glob('KITTI/images/{}/*.png'.format(folder))
+		image_path_list += glob.glob('/vol/bitbucket/mc620/DeepVO/KITTI/images/{}/*.png'.format(folder))
 	calculate_rgb_mean_std(image_path_list, minus_point_5=True)
 
