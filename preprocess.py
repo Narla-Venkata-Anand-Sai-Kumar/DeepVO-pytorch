@@ -44,7 +44,7 @@ def clean_unused_images():
 
 # transform poseGT [R|t] to [theta_x, theta_y, theta_z, x, y, z]
 # save as .npy file
-def create_pose_data(par):
+def create_pose_data():
     info = {
         '00': [0, 4540], '01': [0, 1100], '02': [0, 4660], '03': [0, 800], '04': [0, 270], 
         '05': [0, 2760], '06': [0, 1100], '07': [0, 1100], '08': [1100, 5170], '09': [0, 1590], '10': [0, 1200]
