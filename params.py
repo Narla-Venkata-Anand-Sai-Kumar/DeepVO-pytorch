@@ -4,10 +4,10 @@ class Parameters():
 	def __init__(self):
 		self.n_processors = 10 
 		# Path
-		self.bitbucket_path = ''
-		self.data_dir =  self.bitbucket_path + 'KITTI'
-		self.image_dir = self.data_dir + '/images/'
-		self.pose_dir = self.data_dir + '/pose_GT/'
+		self.bitbucket_path = '/kaggle/working/DeepVO-pytorch'
+		self.data_dir =  "/kaggle/input/kitti-odometry/"
+		self.image_dir = self.data_dir + '/sequences/'
+		self.pose_dir = self.data_dir + '/poses/'
 		
 		self.train_video = ['00','02', '08', '09']
 		self.valid_video = ['04', '06', '07', '10']
@@ -56,7 +56,7 @@ class Parameters():
 		self.resume = True  # resume training
 		self.resume_t_or_v = '.train'
 
-		self.load_model_path = "models/t000102050809_v04060710_im184x608_s5x7_b8_rnn1000_optAdagrad_lr0.0005.model.train"
+		self.load_model_path = self.bitbucket_path + 'models/t{}_v{}_im{}x{}_s{}x{}_b{}_rnn{}_{}.model{}'.format(''.join(self.train_video), ''.join(self.valid_video), self.img_h, self.img_w, self.seq_len[0], self.seq_len[1], self.batch_size, self.rnn_hidden_size, '_'.join([k+str(v) for k, v in self.optim.items()]), self.resume_t_or_v)
 		self.load_optimizer_path = self.bitbucket_path + 'models/t{}_v{}_im{}x{}_s{}x{}_b{}_rnn{}_{}.optimizer{}'.format(''.join(self.train_video), ''.join(self.valid_video), self.img_h, self.img_w, self.seq_len[0], self.seq_len[1], self.batch_size, self.rnn_hidden_size, '_'.join([k+str(v) for k, v in self.optim.items()]), self.resume_t_or_v)
 
 		
