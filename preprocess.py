@@ -45,25 +45,22 @@ def clean_unused_images():
 # transform poseGT [R|t] to [theta_x, theta_y, theta_z, x, y, z]
 # save as .npy file
 def create_pose_data():
-    info = {
-        '00': [0, 4540], '01': [0, 1100], '02': [0, 4660], '03': [0, 800], '04': [0, 270], 
-        '05': [0, 2760], '06': [0, 1100], '07': [0, 1100], '08': [1100, 5170], '09': [0, 1590], '10': [0, 1200]
-    }
-    output_dir = '/kaggle/working/DeepVO-pytorch/KITTI/'
-    os.makedirs(output_dir, exist_ok=True)  # Create the output directory if it doesn't exist
+	info = {'00': [0, 4540], '01': [0, 1100], '02': [0, 4660], '03': [0, 800], '04': [0, 270], '05': [0, 2760], '06': [0, 1100], '07': [0, 1100], '08': [1100, 5170], '09': [0, 1590], '10': [0, 1200]}
+	start_t = time.time()
+	for video in info.keys():
+		fn = '{}{}.txt'.format(par.pose_dir, video)
+		print('Transforming {}...'.format(fn))
+		with open(fn) as f:
+			print(fn)
+			lines = [line.split('\n')[0] for line in f.readlines()] 
+			poses = [ R_to_angle([float(value) for value in l.split(' ')]) for l in lines]  # list of pose (pose=list of 12 floats)
+			poses = np.array(poses)
+			base_fn = os.path.splitext(fn)[0]
+			print(base_fn)
+			np.save(base_fn+'.npy', poses)
+			print('Video {}: shape={}'.format(video, poses.shape))
+	print('elapsed time = {}'.format(time.time()-start_t))
 
-    start_t = time.time()
-    for video in info.keys():
-        fn = os.path.join(par.pose_dir, f'{video}.txt')
-        print(f'Transforming {fn}...')
-        with open(fn, 'r') as f:
-            lines = [line.strip() for line in f.readlines()]
-            poses = [R_to_angle([float(value) for value in l.split()]) for l in lines]  # Assuming space-separated values
-            poses = np.array(poses)
-            output_fn = os.path.join(output_dir, f'{video}.npy')
-            np.save(output_fn, poses)
-            print(f'Video {video}: shape={poses.shape}')
-    print(f'Elapsed time = {time.time() - start_t}')
 
 def calculate_rgb_mean_std(image_path_list, minus_point_5=False):
 	n_images = len(image_path_list)
