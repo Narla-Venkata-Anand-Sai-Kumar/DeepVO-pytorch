@@ -4,7 +4,7 @@ class Parameters():
 	def __init__(self):
 		self.n_processors = 10 
 		# Path
-		self.bitbucket_path = '/kaggle/working/DeepVO-pytorch'
+		self.bitbucket_path = '/kaggle/working/DeepVO-pytorch/'
 		self.data_dir =  "/kaggle/input/kitti-odometry/"
 		self.image_dir = self.data_dir + '/sequences/'
 		self.pose_dir = self.data_dir + '/poses/'
