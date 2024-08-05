@@ -56,8 +56,8 @@ def create_pose_data():
 			poses = [ R_to_angle([float(value) for value in l.split(' ')]) for l in lines]  # list of pose (pose=list of 12 floats)
 			poses = np.array(poses)
 			base_fn = os.path.splitext(fn)[0]
-			print(base_fn)
-			np.save(base_fn+'.npy', poses)
+			
+			np.save("/kaggle/working/DeepVO-pytorch/KITTI/poses/"+base_fn[-2:]+'.npy', poses)
 			print('Video {}: shape={}'.format(video, poses.shape))
 	print('elapsed time = {}'.format(time.time()-start_t))
 
@@ -110,13 +110,12 @@ def calculate_rgb_mean_std(image_path_list, minus_point_5=False):
 
 
 if __name__ == '__main__':
-	clean_unused_images()
-	create_pose_data()
-	
-	# Calculate RGB means of images in training videos
-	train_video = ['00', '02', '08', '09', '06', '04', '10']
-	image_path_list = []
-	for folder in train_video:
-		image_path_list += glob.glob('KITTI/images/{}/*.png'.format(folder))
-	calculate_rgb_mean_std(image_path_list, minus_point_5=True)
+    os.makedirs("/kaggle/working/DeepVO-pytorch/KITTI/poses/",exist_ok=True)
+    clean_unused_images()
+    create_pose_data()
+    train_video = ['00', '02', '08', '09', '06', '04', '10']
+    image_path_list = []
+    for folder in train_video:
+        image_path_list += glob.glob('KITTI/images/{}/*.png'.format(folder))
+    calculate_rgb_mean_std(image_path_list, minus_point_5=True)
 
